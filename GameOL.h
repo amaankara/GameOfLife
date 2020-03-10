@@ -10,6 +10,7 @@ class GameOL{
     ~GameOL();
 
     //fuctions
+    void outputBoard(char**  board, char** nextGenBoard, int count);
     void importFile();
     void randomFunction();
     void selectMode();
