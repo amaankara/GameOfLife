@@ -96,7 +96,81 @@ GameOL::selectMode(){
 }
 
 GameOL::classicMode(char** board){
+  //initilize count to 0 and a new board for next transformation
+  //first check for boundary conditions
+  //then check for all the other conditions
+  //then run an if statement to print on the new board created
+  //check if it is stable, if the board stays the same for 10 conditions or if all cells are empty
 
+  for(int i=0; i<row; ++i){
+    for(int j=0; j<column;++j){
+      int count = 0;
+      char[][] nextGenBoard = new char[row][column];
+
+      // if(board[i][j]=='-'){
+      //   ++dashCount;
+      // }
+      // else if(board[i][j]=='X'){
+      //   ++cellCount;
+      // }
+
+
+      //without boundary conditions
+      if(board[i][j]==board[i-1][j-1]){
+        ++count;
+      }
+      if(board[i][j]==board[i-1][j]){
+        ++count;
+      }
+      if(board[i][j]==board[i-1][j+1]){
+        ++count;
+      }
+      if(board[i][j]==board[i][j+1]){
+        ++count;
+      }
+      if(board[i][j]==board[i+1][j+1]){
+        ++count;
+      }
+      if(board[i][j]==board[i+1][j]){
+        ++count;
+      }
+      if(board[i][j]==board[i+1][j-1]){
+        ++count;
+      }
+      if(board[i][j]==board[i][j-1]){
+        ++count;
+      }
+
+      if(board[i][j]=='X'){
+        if(count==1||count==0){
+          nextGenBoard[i][j]='-';
+        }
+        else if(count==2){
+          nextGenBoard[i][j]='X;
+        }
+        else if(count==3){
+          nextGenBoard[i][j]='X';
+        }
+        else if(count>3){
+          nextGenBoard[i][j]='-';
+        }
+      }
+      else if(board[i][j]=='-'){
+        if(count==1||count==0){
+          nextGenBoard[i][j]='-';
+        }
+        else if(count==2){
+          nextGenBoard[i][j]='-';
+        }
+        else if(count==3){
+          nextGenBoard[i][j]='X';
+        }
+        else if(count>3){
+          nextGenBoard[i][j]='-';
+        }
+      }
+    }
+  }
 }
 
 GameOL::doughnutMode(char** board){
