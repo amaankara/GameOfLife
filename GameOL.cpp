@@ -77,10 +77,10 @@ GameOL::importFile(){
   }
 }
 
-GameOL::outputBoard(char** board,char** nextGenBoard, int count){
+GameOL::outputBoard(char** board, char** nextGenBoard, int count){
   if(board[i][j]=='X'){
     if(count==2){
-      nextGenBoard[i][j]='X;
+      nextGenBoard[i][j]='X';
     }
     else if(count==3){
       nextGenBoard[i][j]='X';
@@ -368,7 +368,7 @@ GameOL::doughnutMode(char** board){
         }
 
         //top right corner
-        else if(i==0&&j==column-1){
+        else if(i==0&&j==(column-1)){
           if(board[i][j]==board[i][j-1]){
             ++count;
           }
@@ -378,16 +378,16 @@ GameOL::doughnutMode(char** board){
           if(board[i][j]==board[i+1][j]){
             ++count;
           }
-          if(board[i][j]==board[row-1][0]){
-            ++count;
-          }
           if(board[i][j]==board[row-1][j]){
             ++count;
           }
-          if(board[i][j]==board[0][0]){
+          if(board[i][j]==board[row-1][j-1]){
             ++count;
           }
-          if(board[i][j]==board[row-1][j-1]){
+          if(board[i][j]==board[row-1][0]){
+            ++count;
+          }
+          if(board[i][j]==board[i][0]){
             ++count;
           }
           if(board[i][j]==board[i+1][0]){
@@ -395,91 +395,195 @@ GameOL::doughnutMode(char** board){
           }
         }
 
-        //bottom right corner
-        else if(i==row-1&&j==column-1){
-          if(board[i][j]==board[i-1][j-1]){
+        else if(i == (row-1) && j == (column-1)){
+          if(board[i][j] == board[i-1][j]){
             ++count;
           }
-          if(board[i][j]==board[i-1][j]){
+          if(board[i][j] == board[i][j-1]){
             ++count;
           }
-          if(board[i][j]==board[i][j-1]){
+          if(board[i][j] == board[i+1][j-1]){
             ++count;
           }
-          if(board[i][j]==board[0][0]){
+          if(board[i][j] == board[0][j-1]){
             ++count;
           }
-          if(board[i][j]==board[i][0]){
+          if(board[i][j] == board[0][j]){
             ++count;
           }
-          if(board[i][j]==board[i-1][0]){
+          if(board[i][j] == board[0][0]){
             ++count;
           }
-          if(board[i][j]==board[0][j]){
+          if(board[i][j] == board[i][0]){
             ++count;
           }
-          if(board[i][j]==board[0][j-1]){
-            ++count;
-          }
-
-        }
-
-        //bottom left corner
-        else if(i==row-1&&j==0){
-          if(board[i][j]==board[i-1][j]){
-            ++count;
-          }
-          if(board[i][j]==board[i-1][j+1]){
-            ++count;
-          }
-          if(board[i][j]==board[i][j+1]){
-            ++count;
-          }
-
-          if(board[i][j]==board[0][column-1]){
-            ++count;
-          }
-          if(board[i][j]==board[0][0]){
-            ++count;
-          }
-          if(board[i][j]==board[0][j+1]){
-            ++count;
-          }
-          if(board[i][j]==board[i][column-1]){
-            ++count;
-          }
-          if(board[i][j]==board[i-1][column-1]){
+          if(board[i][j] == board[i-1][0]){
             ++count;
           }
         }
-
-        //top row
-        else if(i=0){
-          if(board[i][j]==board[i][j+1]){
+        else if(i == (row - 1) && j == 0){
+          if(board[i][j] == board[i][j+1]){
             ++count;
           }
-          if(board[i][j]==board[i+1][j+1]){
+          if(board[i][j] == board[i-1][j]){
             ++count;
           }
-          if(board[i][j]==board[i+1][j]){
+          if(board[i][j] == board[i-1][j+1]){
             ++count;
           }
-          if(board[i][j]==board[i+1][j-1]){
+          if(board[i][j] == board[0][j]){
             ++count;
           }
-          if(board[i][j]==board[i][j-1]){
+          if(board[i][j] == board[0][j+1]){
             ++count;
           }
-          if(board[i][j]==board[row-1][j]){
+          if(board[i][j] == board[0][columns-1]){
             ++count;
           }
-          if(board[i][j]==board[row-1][j-1]){
+          if(board[i][j] == board[i][columns-1]){
             ++count;
           }
-          if(board[i][j]==board[row-1][j+1]){
+          if(board[i][j] == board[i+1][columns-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][columns-1]){
             ++count;
           }
         }
+        else if(j == 0){
+          if(board[i][j] == board[i-1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][column-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i][column-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][column-1]){
+            ++count;
+          }
+        }
+        else if(i == 0){
+          if(board[i][j] == board[i][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[row-1][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[row-1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[row-1][j+1]){
+            ++count;
+          }
+        }
+        else if(i == (row-1)){
+          if(board[i][j] == board[i][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[0][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[0][j]){
+            ++count;
+          }
+          if(board[i][j] == board[0][j+1]){
+            ++count;
+          }
+        }
+        else if(j == (column - 1)){
+          if(board[i][j] == board[i-1][j]){
+            ++count;;
+          }
+          if(board[i][j] == board[i-1][j-1]){
+            ++count;;
+          }
+          if(board[i][j] == board[i+1][j]){
+            ++count;;
+          }
+          if(board[i][j] == board[i+1][j-1]){
+            ++count;;
+          }
+          if(board[i][j] == board[i+1][0]){
+            ++count;;
+          }
+          if(board[i][j] == board[i-1][0]){
+            ++count;;
+          }
+          if(board[i][j] == board[i][0]){
+            ++count;;
+          }
+          if(board[i][j] == board[i][j-1]){
+            ++count;;
+          }
+          if(board[i][j] == board[i][j+1]){
+            ++count;;
+          }
+        }
+        else{
+          if(board[i][j] == board[i+1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i+1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j-1]){
+            ++count;
+          }
+          if(board[i][j] == board[i-1][j]){
+            ++count;
+          }
+          if(board[i][j] == board[i][j+1]){
+            ++count;
+          }
+          if(board[i][j] == board[i][j-1]){
+            ++count;
+          }
+        }
+        //finish mode
 
 
       }
