@@ -378,9 +378,107 @@ GameOL::doughnutMode(char** board){
           if(board[i][j]==board[i+1][j]){
             ++count;
           }
+          if(board[i][j]==board[row-1][0]){
+            ++count;
+          }
+          if(board[i][j]==board[row-1][j]){
+            ++count;
+          }
+          if(board[i][j]==board[0][0]){
+            ++count;
+          }
+          if(board[i][j]==board[row-1][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[i+1][0]){
+            ++count;
+          }
+        }
 
-          //need to add the rest
+        //bottom right corner
+        else if(i==row-1&&j==column-1){
+          if(board[i][j]==board[i-1][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[i-1][j]){
+            ++count;
+          }
+          if(board[i][j]==board[i][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[0][0]){
+            ++count;
+          }
+          if(board[i][j]==board[i][0]){
+            ++count;
+          }
+          if(board[i][j]==board[i-1][0]){
+            ++count;
+          }
+          if(board[i][j]==board[0][j]){
+            ++count;
+          }
+          if(board[i][j]==board[0][j-1]){
+            ++count;
+          }
 
+        }
+
+        //bottom left corner
+        else if(i==row-1&&j==0){
+          if(board[i][j]==board[i-1][j]){
+            ++count;
+          }
+          if(board[i][j]==board[i-1][j+1]){
+            ++count;
+          }
+          if(board[i][j]==board[i][j+1]){
+            ++count;
+          }
+
+          if(board[i][j]==board[0][column-1]){
+            ++count;
+          }
+          if(board[i][j]==board[0][0]){
+            ++count;
+          }
+          if(board[i][j]==board[0][j+1]){
+            ++count;
+          }
+          if(board[i][j]==board[i][column-1]){
+            ++count;
+          }
+          if(board[i][j]==board[i-1][column-1]){
+            ++count;
+          }
+        }
+
+        //top row
+        else if(i=0){
+          if(board[i][j]==board[i][j+1]){
+            ++count;
+          }
+          if(board[i][j]==board[i+1][j+1]){
+            ++count;
+          }
+          if(board[i][j]==board[i+1][j]){
+            ++count;
+          }
+          if(board[i][j]==board[i+1][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[i][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[row-1][j]){
+            ++count;
+          }
+          if(board[i][j]==board[row-1][j-1]){
+            ++count;
+          }
+          if(board[i][j]==board[row-1][j+1]){
+            ++count;
+          }
         }
 
 
