@@ -1,3 +1,8 @@
+//Amaan Karachiwala & Ben Bartol
+//student id: 2326810 & 2315721
+//email: karachiwala@chapman.edu & bartol@chapman.edu
+//CPSC 350-01 & CPSC 350-02
+
 #include "GameOL.cpp"
 #include "GameOL.h"
 #include <iostream>
@@ -13,4 +18,5 @@ int main(int argc, char** argv){
   else if (response==1) {
     gOL.importFile();
   }
+  return 0;
 }
