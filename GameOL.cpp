@@ -8,97 +8,16 @@
 GameOL::GameOL(){
   int row = 0;
   int column = 0;
+  char **board;
 }
 
 //destructor
 GameOL::~GameOL(){
-  delete row;
-  delete column;
 }
 
-GameOL::void randomFunction(){
-  cout << "enter the number of rows " << endl;
-  cin >> row;
-  cout <<"enter the number of columns" << endl;
-  cin >> column;
-  double density = 0.0;
-  char cont = 'y';
-  while(cont == 'y'){
-    cout << "enter a number between 0-1 for the density of population for the cells " << endl;
-    cin >> density;
-    if(density > 1 && density <0)
-      cont = 'n'
-  }
-
-  char[][] board = new char [row][column];
-
-  int occupiedCells = round((row*column)*density);
-
-  int occupiedCount = 0;
-
-  while{occupiedCount<occupiedCells}{
-    for(int i = 0; i<row;++i){
-      for(int j =0; j<column;++j){
-        double ranNum = ((double) rand() / (RAND_MAX));
-        if(ranNum>0.5 && board[i][j]!='X'){
-          board[i][j]='X';
-          occupiedCount++;
-        }
-        else if(board[i][j]!='X'){
-          board[i][j]='-';
-        }
-      }
-    }
-  }
-
-
-  // for(int i =0; i<row; ++i){
-  //   for(int j =0; j<column;++j){
-  //     if(occupiedCells>0){
-  //       board[i][j] = 'X';
-  //       --occupiedCells;
-  //     }
-  //     else{
-  //       board[i][j] = '-';
-  //     }
-  //   }
-  // }
-}
-
-GameOL::void importFile(){
-  string filename = "";
-  cout << "Enter the name of the file you want to import. (Make sure it is in the same directory and include the file extension)" <<endl;
-  cin >> filename;
-  ifstream inputStream(filename);
-  char cont = 'y';
-  string input;
-  while(getline(inputStream, input)&& cont = 'y'){
-    int i =0;
-    if(i==0){
-      row = input;
-    }
-    else if(i==1){
-      column = input;
-      cont = 'n';
-    }
-    ++i;
-  }
-
-  while(getline(inputStream, input)){
-    int i = 0;
-    int tempRow = 0;
-    char[][] board == new board[row][column];
-    if(i>1){
-      for(int j = 0; j<column;++j){
-        board[tempRow][j] = input[j];
-      }
-    }
-    ++i;
-    ++tempRow;
-  }
-}
-
-GameOL::void outputBoard(char** board, char** nextGenBoard, int count){
+//fucntion to create the new board
+void GameOL::outputBoard(char**& board, char**& nextGenBoard, int count,int i, int j){
+  //if cell has a X and checks the conditions to output X or -
   if(board[i][j]=='X'){
     if(count==2){
       nextGenBoard[i][j]='X';
@@ -110,6 +29,7 @@ GameOL::void outputBoard(char** board, char** nextGenBoard, int count){
       nextGenBoard[i][j]='-';
     }
   }
+  //if cell has - and checks conditions to output X or -
   else if(board[i][j]=='-'){
     if(count==3){
       nextGenBoard[i][j]='X';
@@ -121,39 +41,113 @@ GameOL::void outputBoard(char** board, char** nextGenBoard, int count){
 
 }
 
-GameOL::void selectMode(){
-  int mode = 5;
-  while(mode!=0){
-    cout << "Enter 1 for classic mode; 2 for doughnut mode; and 3 for mirror mode"; << endl;
-    if(mode == 1){
-      //initiate classic mode
-      mode =0;
-    }else if(mode == 2){
-      //initiate doughnut mode
-      mode =0;
+
+//function to print the board
+void GameOL::printBoard(char**& board, int displayOption){
+  //display all together
+  if(displayOption==1){
+    for(int i=0;i<row;++i){
+      for(int j=0;j<column;++j){
+        //display each cell
+        cout<board[i][j]<"   ";
+      }
+      //skip to next line
+      cout < endl;
     }
-    else if(mode ==3){
-      //initiate mirror mode
-      mode = 0;
+  }
+  //display on the press of enter
+  else if(displayOption==2){
+    bool enter = false;
+    //loop until enter is press
+    while(enter==false){
+      string nextGen = "";
+      cout<"press enter to view the next simulation "<endl;
+      cin> nextGen;
+      //checks if enter is press
+      if(nextGen=='\n'){
+        for(int i=0;i<row;++i){
+          for(int j=0;j<column;++j){
+            //display individual cells
+            cout<board[i][j]<"   ";
+          }
+          //skip to next line
+          cout < endl;
+        }
+        enter = true;
+      }
+      else{
+        cout<"press enter to view the simulation " <endl
+      }
     }
+  }
+  //print to a file
+  else if(displayOption==3){
+    string filename = "";
+    cout<<"Eneter the name of the file (with the extension) " <<endl;
+    cin>filename;
+
+    ofstream outStream;
+    outStream.open(filename);
+
+    for(int i=0;i<row;++i){
+      for(int j=0;j<column;++j){
+        //print individual cell to file
+        outStream<<board[i][j]<"   ";
+      }
+      //next line in file
+      outStream << endl;
+    }
+
   }
 }
 
-GameOL::void classicMode(char** board){
-  //initilize count to 0 and a new board for next transformation
-  //first check for boundary conditions
-  //then check for all the other conditions
-  //then run an if statement to print on the new board created
-  //check if it is stable, if the board stays the same for 10 conditions or if all cells are empty
+//function to check whether stable or not
+bool GameOL::isStable(char**& board, char**& nextGenBoard,sameGens){
+
+  int emptyCount=0;
+  int simCount = 0;
+  for(int i =0;i<row;++i){
+    for(int j=0; j<column; ++j){
+
+      //count if all cells are -s
+      if(nextGenBoard[i][j]=='-'){
+        ++emptyCount;
+      }
+      //count if cells are the same as previous gen
+      if(nextGenBoard[i][j]==board[i][j]){
+        ++simCount;
+      }
+    }
+  }
+
+  //return stable true if game over
+  int numCells = row*column
+  if(emptyCount==numCells{
+    return true;
+  }
+  if(simCount==numCells){
+    ++sameGens;
+  }
+  if(sameGens==10){
+    return true;
+  }
+  else{
+    return false;
+  }
+
+}
+
+//function to check classic mode
+void GameOL::classicMode(char**& board, int displayOption){
 
   bool stable = false;
+  //loop until it is stable
   while(stable==false){
-    int sameGens = 0;
-
+    int sameGens = 0;                                                 //keeps track of same generations
+    char nextGenBoard[row][column];
     for(int i=0; i<row; ++i){
       for(int j=0; j<column;++j){
         int count = 0;
-        char[][] nextGenBoard = new char[row][column];
 
         //top left corner
         if(i==0&&j==0){
@@ -311,47 +305,58 @@ GameOL::void classicMode(char** board){
           }
         }
 
-        outputBoard(board, nextGenBoard, count);
+        //calling output function
+        outputBoard(board, nextGenBoard, count,i,j);
       }
     }
 
-    int emptyCount=0;
-    int simCount = 0;
-    for(int i =0;i<row;++i){
-      for(int j=0; j<column; ++j){
-        //display cells
-        cout<< nextGenBoard[i][j] <<end;
-        //count if all cells are -s
-        if(nextGenBoard[i][j]=='-'){
-          ++emptyCount;
-        }
-        //count if cells are the same as previous gen
-        if(nextGenBoard[i][j]==board[i][j]){
-          ++simCount;
-        }
+    // int emptyCount=0;
+    // int simCount = 0;
+    // for(int i =0;i<row;++i){
+    //   for(int j=0; j<column; ++j){
+    //     //display cells
+    //     cout<< nextGenBoard[i][j] <<end;
+    //     //count if all cells are -s
+    //     if(nextGenBoard[i][j]=='-'){
+    //       ++emptyCount;
+    //     }
+    //     //count if cells are the same as previous gen
+    //     if(nextGenBoard[i][j]==board[i][j]){
+    //       ++simCount;
+    //     }
+    //   }
+    //   cout<< << endl;
+    // }
+    //
+    // //change stable to true if game over
+    // int numCells = row*column
+    // if(emptyCount==numCells{
+    //   stable = true;
+    // }
+    // if(simCount==numCells){
+    //   ++sameGens;
+    // }
+    // if(sameGens==10){
+    //   stable = true;
+    // }
+
+    //check if stable
+    stable = isStable(board,nextGenBoard,sameGens);
+    for(int i =0; i<row;++i){
+      for(int j=0; j,column;++j){
+        //update value in current board
+        board[i][j]=nextGenBoard[i][j];
       }
-      cout<< << endl;
     }
 
-    //change stable to true if game over
-    int numCells = row*column
-    if(emptyCount==numCells{
-      stable = true;
-    }
-    if(simCount==numCells){
-      ++sameGens;
-    }
-
-    if(sameGens==10){
-      stable = true;
-    }
-    board = nextGenBoard;
+    printBoard(board,displayOption);
 
   }
 }
 
-GameOL::void doughnutMode(char** board){
-
+//fucntion to check doughnut mode
+void GameOL::doughnutMode(char** board, int displayOption){
+  int sameGens=0;                                                //keeps track of same generations
   bool stable = false;
   while(stable==false){
     char[][] nextGenBoard = new char[][];
@@ -619,16 +624,25 @@ GameOL::void doughnutMode(char** board){
           }
         }
 
-        //finish mode
-
+        outputBoard(board, nextGenBoard, count,i,j);
 
       }
     }
-  }
 
+    stable = isStable(board,nextGenBoard,sameGens);
+    for(int i =0; i<row;++i){
+      for(int j=0; j,column;++j){
+        board[i][j]=nextGenBoard[i][j];
+      }
+    }
+
+    printBoard(board,displayOption);
+
+  }
 }
 
-GameOL::void mirrorMode(char** board){
+//function to check mittor mode
+void GameOL::mirrorMode(char** board, int displayOption){
   bool stable = false;
   while(stable==false){
 
@@ -818,7 +832,135 @@ GameOL::void mirrorMode(char** board){
               ++count;
             }
           }
-          }
+          outputBoard(board, nextGenBoard, count,i,j);
+
+        }
+      }
+      stable = isStable(board,nextGenBoard,sameGens);
+      for(int i =0; i<row;++i){
+        for(int j=0; j,column;++j){
+          board[i][j]=nextGenBoard[i][j];
+        }
+      }
+
+      printBoard(board,displayOption);
+
+    }
+}
+
+//fucntion to select mode
+void GameOL::selectMode(char**& board){
+  int mode = 5;
+  int displayOption = 0;
+  //asks user what display option required
+  cout<<"Select how you want display your simulations "<<endl;
+  cout<<"Enter 1 to view all the simulations together "<<endl;
+  cout<<"Enter 2 to press Enter to display the next simulations "<<endl;
+  cout<<"Enter 3 to view all the simulations in a file "<<endl;
+  cin>>displayOption;
+
+  //loop until current number selected
+  while(mode!=0){
+    cout << "Enter 1 for classic mode; 2 for doughnut mode; and 3 for mirror mode"; << endl;
+    mode>>cin;
+    if(mode == 1){
+      mode =0;
+      classicMode(board,displayOption);
+    }else if(mode == 2){
+      mode =0;
+      doughnutMode(board,displayOption);
+    }
+    else if(mode ==3){
+      mode = 0;
+      mirrorMode(board,displayOption);
+    }
+  }
+
+}
+
+//function to create random board
+void GameOL::randomFunction(){
+  cout << "enter the number of rows " << endl;
+  cin >> row;
+  cout <<"enter the number of columns" << endl;
+  cin >> column;
+  double density = 0.0;
+  char cont = 'y';
+  //loop until density between 0 and 1
+  while(cont == 'y'){
+    cout << "enter a number between 0-1 for the density of population for the cells " << endl;
+    cin >> density;
+    if(density > 1 && density <0){
+      cont = 'n';
+    }
+  }
+  //creating a board
+  char board[row][column];
+
+  //calculating number of occupied Cells
+  int occupiedCells = round((row*column)*density);
+
+  int occupiedCount = 0;
+
+  //loops until board is populated with sufficent density.
+  while(occupiedCount<occupiedCells){
+    for(int i = 0; i<row;++i){
+      for(int j =0; j<column;++j){
+        //create random number between 0 and 1
+        double ranNum = ((double) rand() / (RAND_MAX));
+        //output X is random number greater than 0.5 and there is not already a X there
+        if(ranNum>0.5 && board[i][j]!='X'){
+          board[i][j]='X';
+          occupiedCount++;
+        }
+        //output - if no X in cell
+        else if(board[i][j]!='X'){
+          board[i][j]='-';
+        }
       }
     }
+  }
+  //call select mode
+  selectMode(board);
+}
+
+//fucntion to import a board
+void GameOL::importFile(){
+  string filename = "";
+  cout << "Enter the name of the file you want to import. (Make sure it is in the same directory and include the file extension)" <<endl;
+  cin >> filename;
+  ifstream inputStream(filename);
+  char cont = 'y';
+  string input;
+  //read file line by line
+  while(getline(inputStream, input)&& cont = 'y'){
+    int i =0;
+    //input rows
+    if(i==0){
+      row = input;
+    }
+    //input columns
+    else if(i==1){
+      column = input;
+      cont = 'n';
+    }
+    i++;
+  }
+
+  //creat new board
+  char board[row][column];
+  while(getline(inputStream, input)){
+    int i = 0;
+    int tempRow = 0;
+    if(i>1){
+      for(int j = 0; j<column;++j){
+        //input values from file to board
+        board[tempRow][j] = input[j];
+      }
+    }
+    i++;
+    tempRow++;
+  }
+  //call select mode
+  selectMode(board);
 }

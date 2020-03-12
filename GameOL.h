@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
-class GameOL{
+class GameOL
+{
 
   public:
     //constructor and destructor
@@ -10,17 +12,19 @@ class GameOL{
     ~GameOL();
 
     //fuctions
-    void outputBoard(char**  board, char** nextGenBoard, int count);
+    void outputBoard(char**& board, char**& nextGenBoard, int count);
     void importFile();
     void randomFunction();
-    void selectMode();
-    void classicMode(char** board);
-    void doughnutMode(char** board);
-    void mirrorMode(char** board);
+    void selectMode(char**& board);
+    void classicMode(char**& board,int displayOption);
+    void doughnutMode(char**& board,int displayOption);
+    void mirrorMode(char**& board,int displayOption);
+    void printBoard(char**& board, char**& nextGenBoard, int displayOption)
 
-    //variables
+  private:
     int row;
     int column;
+    char **board;
 
 
 };

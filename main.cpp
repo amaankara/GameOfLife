@@ -1,16 +1,16 @@
 #include "GameOL.cpp"
+#include "GameOL.h"
 #include <iostream>
 
-int main(int argc, **char argv){
+int main(int argc, char** argv){
+  GameOL gOL;
   int response = 0;
   cout<< "for a random configuration enter 0 and to import a text file enter 1" <<endl;
   cin >> response;
   if(response==0){
-    GameOL:: void randomFunction();
+    gOL.randomFunction();
   }
   else if (response==1) {
-    GameOL:: void importFile();
+    gOL.importFile();
   }
-
-  GameOL::void selectMode();
 }
