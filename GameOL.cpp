@@ -1,5 +1,8 @@
 #include "GameOL.h"
 #include <fstream>
+#include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 //default constructor
 GameOL::GameOL(){
@@ -13,7 +16,7 @@ GameOL::~GameOL(){
   delete column;
 }
 
-GameOL::randomFunction(){
+GameOL::void randomFunction(){
   cout << "enter the number of rows " << endl;
   cin >> row;
   cout <<"enter the number of columns" << endl;
@@ -31,20 +34,38 @@ GameOL::randomFunction(){
 
   int occupiedCells = round((row*column)*density);
 
-  for(int i =0; i<row; ++i){
-    for(int j =0; j<column;++j){
-      if(occupiedCells>0){
-        board[i][j] = 'X';
-        --occupiedCells;
-      }
-      else{
-        board[i][j] = '-';
+  int occupiedCount = 0;
+
+  while{occupiedCount<occupiedCells}{
+    for(int i = 0; i<row;++i){
+      for(int j =0; j<column;++j){
+        double ranNum = ((double) rand() / (RAND_MAX));
+        if(ranNum>0.5 && board[i][j]!='X'){
+          board[i][j]='X';
+          occupiedCount++;
+        }
+        else if(board[i][j]!='X'){
+          board[i][j]='-';
+        }
       }
     }
   }
+
+
+  // for(int i =0; i<row; ++i){
+  //   for(int j =0; j<column;++j){
+  //     if(occupiedCells>0){
+  //       board[i][j] = 'X';
+  //       --occupiedCells;
+  //     }
+  //     else{
+  //       board[i][j] = '-';
+  //     }
+  //   }
+  // }
 }
 
-GameOL::importFile(){
+GameOL::void importFile(){
   string filename = "";
   cout << "Enter the name of the file you want to import. (Make sure it is in the same directory and include the file extension)" <<endl;
   cin >> filename;
@@ -77,7 +98,7 @@ GameOL::importFile(){
   }
 }
 
-GameOL::outputBoard(char** board, char** nextGenBoard, int count){
+GameOL::void outputBoard(char** board, char** nextGenBoard, int count){
   if(board[i][j]=='X'){
     if(count==2){
       nextGenBoard[i][j]='X';
@@ -100,7 +121,7 @@ GameOL::outputBoard(char** board, char** nextGenBoard, int count){
 
 }
 
-GameOL::selectMode(){
+GameOL::void selectMode(){
   int mode = 5;
   while(mode!=0){
     cout << "Enter 1 for classic mode; 2 for doughnut mode; and 3 for mirror mode"; << endl;
@@ -118,7 +139,7 @@ GameOL::selectMode(){
   }
 }
 
-GameOL::classicMode(char** board){
+GameOL::void classicMode(char** board){
   //initilize count to 0 and a new board for next transformation
   //first check for boundary conditions
   //then check for all the other conditions
@@ -329,15 +350,16 @@ GameOL::classicMode(char** board){
   }
 }
 
-GameOL::doughnutMode(char** board){
+GameOL::void doughnutMode(char** board){
 
   bool stable = false;
   while(stable==false){
+    char[][] nextGenBoard = new char[][];
+
     for(int i=0; i <row;++i){
       for(int j=0; j<column;++j){
 
         int count =0;
-        char[][] nextGenBoard = new char[][];
 
         //top left corner
         if(i==0&&j==0){
@@ -395,6 +417,7 @@ GameOL::doughnutMode(char** board){
           }
         }
 
+        //right borrom corner
         else if(i == (row-1) && j == (column-1)){
           if(board[i][j] == board[i-1][j]){
             ++count;
@@ -421,6 +444,8 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
+        //left bottom corner
         else if(i == (row - 1) && j == 0){
           if(board[i][j] == board[i][j+1]){
             ++count;
@@ -450,6 +475,8 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
+        //left column
         else if(j == 0){
           if(board[i][j] == board[i-1][j]){
             ++count;
@@ -476,6 +503,8 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
+        //top row
         else if(i == 0){
           if(board[i][j] == board[i][j+1]){
             ++count;
@@ -502,6 +531,8 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
+        //bottom row
         else if(i == (row-1)){
           if(board[i][j] == board[i][j+1]){
             ++count;
@@ -528,6 +559,8 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
+        //right column
         else if(j == (column - 1)){
           if(board[i][j] == board[i-1][j]){
             ++count;;
@@ -557,7 +590,9 @@ GameOL::doughnutMode(char** board){
             ++count;;
           }
         }
+        //middle cells
         else{
+
           if(board[i][j] == board[i+1][j+1]){
             ++count;
           }
@@ -583,6 +618,7 @@ GameOL::doughnutMode(char** board){
             ++count;
           }
         }
+
         //finish mode
 
 
@@ -592,6 +628,197 @@ GameOL::doughnutMode(char** board){
 
 }
 
-GameOL::mirrorMode(char** board){
+GameOL::void mirrorMode(char** board){
+  bool stable = false;
+  while(stable==false){
 
+    char[][] nextGenBoard= new char[row][column];
+
+    for(int i=0;i<row;<++i){
+      for(int j=0;j<column;++i){
+
+        int count =0;
+          //top left corner
+          if(i==0&&j==0){
+            if(board[i][j]==board[i][j]){
+              count = count+3;
+            }
+            if(board[i][j] == board[i][j+1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i+1][j+1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j]{
+              count = count+2;
+            }
+          }
+
+          //top left corner
+          else if((i == 0) && (j == (column-1))){
+            if(board[i][j] == board[i][j]{
+              count = count+3;
+            }
+            if(board[i][j] == board[i][j-1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i+1][j-1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j]{
+              count = count+2;
+            }
+          }
+
+          //bottom right corner
+          else if((i == (row - 1) && (j == (column - 1))){
+            if(board[i][j] == board[i][j]{
+              count = count+3;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i-1][j-1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j-1]{
+              count = count+2;
+            }
+          }
+
+          //bottom left corner
+          else if((i == (row - 1) && (j == 0))){
+            if(board[i][j] == board[i][j]{
+              count = count+3;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i-1][j+1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j+1]{
+              count = count+2;
+            }
+          }
+
+          //top row
+          else if(i == 0){
+            if(board[i][j] == board[i][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j-1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i][j+1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i+1][j+1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j-1]{
+              count = count+1;
+            }
+          }
+
+          //bottom row
+          else if(i == (row - 1)){
+            if(board[i][j] == board[i][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j-1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i][j+1]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i-1][j-1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i-1][j+1]{
+              count = count+1;
+            }
+          }
+
+          //left column
+          else if(j = 0){
+            if(board[i][j] == board[i][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i+1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i+1][j+1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j+1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+1;
+            }
+          }
+
+          //right column
+          else if(j == (column - 1)){
+            if(board[i][j] == board[i][j]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i-1][j]{
+              count = count+2;
+            }
+            if(board[i][j] == board[i-1][j-1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i][j-1]{
+              count = count+1;
+            }
+            if(board[i][j] == board[i+1][j-1]{
+              count = count+1;
+            }
+          }
+
+
+          //middle cells
+          else{
+            if(board[i][j] == board[i+1][j+1]){
+              ++count;
+            }
+            if(board[i][j] == board[i+1][j-1]){
+              ++count;
+            }
+            if(board[i][j] == board[i+1][j]){
+              ++count;
+            }
+            if(board[i][j] == board[i-1][j+1]){
+              ++count;
+            }
+            if(board[i][j] == board[i-1][j-1]){
+              ++count;
+            }
+            if(board[i][j] == board[i-1][j]){
+              ++count;
+            }
+            if(board[i][j] == board[i][j+1]){
+              ++count;
+            }
+            if(board[i][j] == board[i][j-1]){
+              ++count;
+            }
+          }
+          }
+      }
+    }
 }
